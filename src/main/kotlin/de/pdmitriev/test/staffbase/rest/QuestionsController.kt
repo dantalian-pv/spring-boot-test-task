@@ -1,9 +1,10 @@
-package de.pdmitriev.test.staffbase.staffbase.rest
+package de.pdmitriev.test.staffbase.rest
 
-import de.pdmitriev.test.staffbase.staffbase.rest.model.RestQuestion
-import de.pdmitriev.test.staffbase.staffbase.rest.model.RestQuestionList
-import de.pdmitriev.test.staffbase.staffbase.storage.QuestionsStorage
-import de.pdmitriev.test.staffbase.staffbase.storage.model.PersistQuestion
+import de.pdmitriev.test.staffbase.rest.model.RestQuestion
+import de.pdmitriev.test.staffbase.rest.model.RestQuestionList
+import de.pdmitriev.test.staffbase.storage.NoEntityFoundException
+import de.pdmitriev.test.staffbase.storage.QuestionsStorage
+import de.pdmitriev.test.staffbase.storage.model.PersistQuestion
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 
@@ -20,7 +21,12 @@ class QuestionsController(private val questionsStorage: QuestionsStorage) {
     @GetMapping("/{id}")
     @ResponseBody
     fun getQuestion(@PathVariable id: Int): RestQuestion {
-        return questionsStorage.getQuestion(id).rest()
+        try {
+            return questionsStorage.getQuestion(id).rest()
+        } catch (e: NoEntityFoundException) {
+            throw RestNotFoundException("No question found with $id", e)
+        }
+
     }
 
     @PostMapping(consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE))
@@ -32,13 +38,18 @@ class QuestionsController(private val questionsStorage: QuestionsStorage) {
     @PutMapping("/{id}", consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE))
     @ResponseBody
     fun editQuestion(@PathVariable id: Int, @RequestBody restQuestion: RestQuestion): RestQuestion {
-        return questionsStorage.editQuestion(id, restQuestion.title, restQuestion.content).rest()
+        try {
+            return questionsStorage.editQuestion(id, restQuestion.title, restQuestion.content).rest()
+        } catch (e: NoEntityFoundException) {
+            throw RestNotFoundException("No question found with $id", e)
+        }
     }
 
     fun PersistQuestion.rest() = RestQuestion(
             id,
             title,
-            content
+            content,
+            creationDate
     )
 
 }

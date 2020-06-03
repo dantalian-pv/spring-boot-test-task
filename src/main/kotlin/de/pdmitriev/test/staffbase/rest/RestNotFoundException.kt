@@ -1,4 +1,4 @@
-package de.pdmitriev.test.staffbase.staffbase.rest
+package de.pdmitriev.test.staffbase.rest
 
 import org.springframework.http.HttpStatus
 import org.springframework.web.server.ResponseStatusException

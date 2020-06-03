@@ -1,4 +1,4 @@
-package de.pdmitriev.test.staffbase.staffbase
+package de.pdmitriev.test.staffbase
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
