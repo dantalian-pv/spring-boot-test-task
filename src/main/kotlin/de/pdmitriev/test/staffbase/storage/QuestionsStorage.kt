@@ -20,7 +20,7 @@ class QuestionsStorage {
 
     fun getQuestion(id: Int): PersistQuestion {
         val question = questions[id]
-        return question ?: throw NoEntityFoundException("No question with $id found")
+        return question ?: throw NoEntityFoundException("No question with id=$id found")
     }
 
     fun addQuestion(title: String, content: String): PersistQuestion {

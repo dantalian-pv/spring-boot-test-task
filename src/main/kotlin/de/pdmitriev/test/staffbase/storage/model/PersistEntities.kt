@@ -6,3 +6,10 @@ class PersistQuestion(
 		var content: String,
 		var creationDate: Long
 )
+
+class PersistAnswer(
+		var id: Int,
+		var questionId: Int,
+		var content: String,
+		var creationDate: Long
+)

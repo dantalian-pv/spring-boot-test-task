@@ -2,7 +2,6 @@ package de.pdmitriev.test.staffbase.rest
 
 import de.pdmitriev.test.staffbase.rest.model.RestQuestion
 import de.pdmitriev.test.staffbase.rest.model.RestQuestionList
-import de.pdmitriev.test.staffbase.storage.NoEntityFoundException
 import de.pdmitriev.test.staffbase.storage.QuestionsStorage
 import de.pdmitriev.test.staffbase.storage.model.PersistQuestion
 import org.springframework.http.MediaType
@@ -21,12 +20,7 @@ class QuestionsController(private val questionsStorage: QuestionsStorage) {
     @GetMapping("/{id}")
     @ResponseBody
     fun getQuestion(@PathVariable id: Int): RestQuestion {
-        try {
-            return questionsStorage.getQuestion(id).rest()
-        } catch (e: NoEntityFoundException) {
-            throw RestNotFoundException("No question found with $id", e)
-        }
-
+        return questionsStorage.getQuestion(id).rest()
     }
 
     @PostMapping(consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE))
@@ -38,11 +32,7 @@ class QuestionsController(private val questionsStorage: QuestionsStorage) {
     @PutMapping("/{id}", consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE))
     @ResponseBody
     fun editQuestion(@PathVariable id: Int, @RequestBody restQuestion: RestQuestion): RestQuestion {
-        try {
-            return questionsStorage.editQuestion(id, restQuestion.title, restQuestion.content).rest()
-        } catch (e: NoEntityFoundException) {
-            throw RestNotFoundException("No question found with $id", e)
-        }
+        return questionsStorage.editQuestion(id, restQuestion.title, restQuestion.content).rest()
     }
 
     fun PersistQuestion.rest() = RestQuestion(
