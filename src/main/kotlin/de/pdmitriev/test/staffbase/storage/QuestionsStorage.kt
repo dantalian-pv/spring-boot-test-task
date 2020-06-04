@@ -31,10 +31,11 @@ class QuestionsStorage {
         return question ?: throw NoEntityFoundException("No question with id=$id found")
     }
 
-    fun addQuestion(title: String, content: String): PersistQuestion {
+    fun addQuestion(title: String, content: String, user: String): PersistQuestion {
         val question = PersistQuestion(idGenerator.incrementAndGet(),
                 title,
                 content,
+                user,
                 System.currentTimeMillis())
         questions[question.id] = question
         return question

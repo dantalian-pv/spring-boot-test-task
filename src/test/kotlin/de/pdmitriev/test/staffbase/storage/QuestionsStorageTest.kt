@@ -94,7 +94,7 @@ internal class QuestionsStorageTest {
     @Test
     fun shouldReturnOneQuestionById() {
         // when
-        val addedQuestion = questionsStorage.addQuestion("title1", "content1")
+        val addedQuestion = questionsStorage.addQuestion("title1", "content1", "user1")
 
         // then
         val question = questionsStorage.getQuestion(addedQuestion.id)
@@ -120,7 +120,7 @@ internal class QuestionsStorageTest {
     @Test
     fun shouldEditAddedQuestion() {
         // when
-        val addedQuestion = questionsStorage.addQuestion("title1", "content1")
+        val addedQuestion = questionsStorage.addQuestion("title1", "content1", "user1")
 
         // then
         val question = questionsStorage.editQuestion(addedQuestion.id, "title2", "content2")
@@ -131,7 +131,7 @@ internal class QuestionsStorageTest {
 
     private fun addQuestions(size: Int) {
         for (i in 1..size) {
-            questionsStorage.addQuestion("title$i", "content$i")
+            questionsStorage.addQuestion("title$i", "content$i", "user1")
         }
     }
 }

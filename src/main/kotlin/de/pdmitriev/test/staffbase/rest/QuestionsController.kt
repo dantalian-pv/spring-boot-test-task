@@ -7,6 +7,7 @@ import de.pdmitriev.test.staffbase.storage.model.PersistQuestion
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
+import java.security.Principal
 
 @RestController
 @RequestMapping("/api/v1/questions")
@@ -26,8 +27,8 @@ class QuestionsController(@Autowired private val questionsStorage: QuestionsStor
 
     @PostMapping(consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE))
     @ResponseBody
-    fun addQuestion(@RequestBody restQuestion: RestQuestion): RestQuestion {
-        return questionsStorage.addQuestion(restQuestion.title, restQuestion.content).rest()
+    fun addQuestion(@RequestBody restQuestion: RestQuestion, principal: Principal): RestQuestion {
+        return questionsStorage.addQuestion(restQuestion.title, restQuestion.content, principal.name).rest()
     }
 
     @PutMapping("/{id}", consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE))
@@ -40,6 +41,7 @@ class QuestionsController(@Autowired private val questionsStorage: QuestionsStor
             id,
             title,
             content,
+            user,
             creationDate
     )
 

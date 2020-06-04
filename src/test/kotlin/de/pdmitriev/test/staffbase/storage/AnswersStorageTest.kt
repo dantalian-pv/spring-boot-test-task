@@ -215,6 +215,6 @@ internal class AnswersStorageTest {
     }
 
     private fun prepareQuestion(questionId: Int): PersistQuestion {
-        return PersistQuestion(questionId, "title$questionId", "content$questionId", questionId.toLong())
+        return PersistQuestion(questionId, "title$questionId", "content$questionId", "user1", questionId.toLong())
     }
 }

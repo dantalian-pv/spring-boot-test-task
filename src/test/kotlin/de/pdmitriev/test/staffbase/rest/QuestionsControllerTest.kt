@@ -65,9 +65,9 @@ internal class QuestionsControllerTest(@Autowired val mockMvc: MockMvc, @Autowir
     @WithMockUser(value = "user1")
     @Test
     fun shouldAddSingleElement() {
-        every { questionsStorage.addQuestion("title1", "content1") } returns createQuestion(1)
+        every { questionsStorage.addQuestion("title1", "content1", "user1") } returns createQuestion(1)
         mockMvc.perform(MockMvcRequestBuilders.post(QUESTIONS_PATH)
-                .content(mapper.writeValueAsString(RestQuestion(null, "title1", "content1", null)))
+                .content(mapper.writeValueAsString(RestQuestion(null, "title1", "content1", "user1", null)))
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk)
@@ -91,10 +91,10 @@ internal class QuestionsControllerTest(@Autowired val mockMvc: MockMvc, @Autowir
     @WithMockUser(value = "user1")
     @Test
     fun shouldEditSingleElementById() {
-        val question1 = PersistQuestion(1, "title2", "content2", System.currentTimeMillis())
+        val question1 = PersistQuestion(1, "title2", "content2", "user1", System.currentTimeMillis())
         every { questionsStorage.editQuestion(1,"title2", "content2") } returns question1
         mockMvc.perform(MockMvcRequestBuilders.put("$QUESTIONS_PATH/1")
-                .content(mapper.writeValueAsString(RestQuestion(null, "title2", "content2", null)))
+                .content(mapper.writeValueAsString(RestQuestion(null, "title2", "content2", "user1", null)))
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk)
@@ -108,10 +108,11 @@ internal class QuestionsControllerTest(@Autowired val mockMvc: MockMvc, @Autowir
         return PersistQuestion(id,
         "title$id",
         "content$id",
+        "user1",
         System.currentTimeMillis())
     }
 
     private fun addQuestions(size: Int): List<PersistQuestion> {
-        return List(size) { PersistQuestion(it, "title$it", "content$it", System.currentTimeMillis()) }
+        return List(size) { PersistQuestion(it, "title$it", "content$it", "user1", System.currentTimeMillis()) }
     }
 }
