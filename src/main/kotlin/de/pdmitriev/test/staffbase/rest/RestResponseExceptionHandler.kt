@@ -33,7 +33,7 @@ class RestResponseExceptionHandler : ResponseEntityExceptionHandler() {
                 RestExceptionBody(HttpStatus.INTERNAL_SERVER_ERROR, ex.message)
             }
         }
-        val path = (request as ServletWebRequest).request.requestURI
+        val path = if (request == null) null else (request as ServletWebRequest).request.requestURI
         if (printStack) {
             logger.error("REST Error ${body.status} occurred in $path", ex)
         } else {
