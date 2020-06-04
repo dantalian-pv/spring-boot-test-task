@@ -4,11 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import de.pdmitriev.test.staffbase.rest.model.RestQuestion
 import de.pdmitriev.test.staffbase.storage.AnswersStorage
-import de.pdmitriev.test.staffbase.storage.NoEntityFoundException
+import de.pdmitriev.test.staffbase.storage.exceptions.NoEntityFoundException
 import de.pdmitriev.test.staffbase.storage.QuestionsStorage
 import de.pdmitriev.test.staffbase.storage.model.PersistQuestion
 import io.mockk.every
-import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest

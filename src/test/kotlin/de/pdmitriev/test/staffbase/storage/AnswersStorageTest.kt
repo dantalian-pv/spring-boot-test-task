@@ -1,5 +1,6 @@
 package de.pdmitriev.test.staffbase.storage
 
+import de.pdmitriev.test.staffbase.storage.exceptions.NoEntityFoundException
 import de.pdmitriev.test.staffbase.storage.model.PersistQuestion
 import io.mockk.MockKAnnotations
 import io.mockk.clearMocks

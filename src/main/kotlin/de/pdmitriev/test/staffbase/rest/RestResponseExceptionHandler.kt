@@ -1,7 +1,7 @@
 package de.pdmitriev.test.staffbase.rest
 
-import de.pdmitriev.test.staffbase.storage.NoEntityFoundException
-import de.pdmitriev.test.staffbase.storage.StorageException
+import de.pdmitriev.test.staffbase.storage.exceptions.NoEntityFoundException
+import de.pdmitriev.test.staffbase.storage.exceptions.StorageException
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

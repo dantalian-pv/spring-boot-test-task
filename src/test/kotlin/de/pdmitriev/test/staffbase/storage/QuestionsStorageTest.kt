@@ -1,5 +1,6 @@
 package de.pdmitriev.test.staffbase.storage
 
+import de.pdmitriev.test.staffbase.storage.exceptions.NoEntityFoundException
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach

@@ -1,5 +1,6 @@
 package de.pdmitriev.test.staffbase.storage
 
+import de.pdmitriev.test.staffbase.storage.exceptions.NoEntityFoundException
 import de.pdmitriev.test.staffbase.storage.model.PersistQuestion
 import org.springframework.stereotype.Service
 import java.lang.IllegalArgumentException
@@ -15,7 +16,13 @@ class QuestionsStorage {
         val sizeLimit = if (limit < 0) throw IllegalArgumentException("limit must be >= 0") else limit
         return questions.entries
                 .map { it.value }
-                .sortedByDescending { it.creationDate }
+                .sortedWith( Comparator{ item1, item2 ->
+                    val dateCompare = item2.creationDate.compareTo(item1.creationDate)
+                    if (dateCompare == 0) {
+                        return@Comparator item2.id.compareTo(item1.id)
+                    }
+                    return@Comparator dateCompare
+                })
                 .subList(0, questions.size.coerceAtMost(sizeLimit))
     }
 

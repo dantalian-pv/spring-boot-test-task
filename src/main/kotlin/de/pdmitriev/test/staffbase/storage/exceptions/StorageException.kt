@@ -1,4 +1,4 @@
-package de.pdmitriev.test.staffbase.storage
+package de.pdmitriev.test.staffbase.storage.exceptions
 
 open class StorageException: RuntimeException {
     constructor() : super()

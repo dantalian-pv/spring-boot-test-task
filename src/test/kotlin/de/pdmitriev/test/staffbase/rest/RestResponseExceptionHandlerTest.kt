@@ -1,6 +1,7 @@
 package de.pdmitriev.test.staffbase.rest
 
-import de.pdmitriev.test.staffbase.storage.NoEntityFoundException
+import de.pdmitriev.test.staffbase.rest.exceptions.RestInternalErrorException
+import de.pdmitriev.test.staffbase.storage.exceptions.NoEntityFoundException
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
