@@ -7,8 +7,8 @@ import java.util.concurrent.atomic.AtomicInteger
 
 @Service
 class QuestionsStorage {
-    protected val idGenerator = AtomicInteger()
-    protected val questions = ConcurrentHashMap<Int, PersistQuestion>()
+    private val idGenerator = AtomicInteger()
+    private val questions = ConcurrentHashMap<Int, PersistQuestion>()
 
     fun allQuestions(limit: Int = -1): List<PersistQuestion> {
         val sizeLimit = if (limit == -1) questions.size else limit

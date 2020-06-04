@@ -7,10 +7,10 @@ import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicInteger
 
 @Service
-class AnswersStorage(@Autowired val questionsStorage: QuestionsStorage) {
-    protected val idGenerator = AtomicInteger()
-    protected val questionAnswers = ConcurrentHashMap<Int, MutableList<PersistAnswer>>()
-    protected val answers = ConcurrentHashMap<Int, PersistAnswer>()
+class AnswersStorage(@Autowired private val questionsStorage: QuestionsStorage) {
+    private val idGenerator = AtomicInteger()
+    private val questionAnswers = ConcurrentHashMap<Int, MutableList<PersistAnswer>>()
+    private val answers = ConcurrentHashMap<Int, PersistAnswer>()
 
     fun allAnswers(limit: Int = -1): List<PersistAnswer> {
         val allAnswersList = questionAnswers.flatMap { it.value }
