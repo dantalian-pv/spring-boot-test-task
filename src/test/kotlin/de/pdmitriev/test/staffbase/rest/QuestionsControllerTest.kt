@@ -12,11 +12,12 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
+import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
-@WebMvcTest
+@WebMvcTest(QuestionsController::class)
 internal class QuestionsControllerTest(@Autowired val mockMvc: MockMvc, @Autowired val mapper: ObjectMapper) {
 
     @MockkBean
@@ -61,6 +62,7 @@ internal class QuestionsControllerTest(@Autowired val mockMvc: MockMvc, @Autowir
                 .andExpect(MockMvcResultMatchers.jsonPath("\$.content").value("content1"))
     }
 
+    @WithMockUser(value = "user1")
     @Test
     fun shouldAddSingleElement() {
         every { questionsStorage.addQuestion("title1", "content1") } returns createQuestion(1)
@@ -86,6 +88,7 @@ internal class QuestionsControllerTest(@Autowired val mockMvc: MockMvc, @Autowir
                 .andExpect(MockMvcResultMatchers.jsonPath("\$.message").value("no 1"))
     }
 
+    @WithMockUser(value = "user1")
     @Test
     fun shouldEditSingleElementById() {
         val question1 = PersistQuestion(1, "title2", "content2", System.currentTimeMillis())

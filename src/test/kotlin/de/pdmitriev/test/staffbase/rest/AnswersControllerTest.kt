@@ -12,11 +12,12 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
+import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
-@WebMvcTest
+@WebMvcTest(AnswersController::class)
 internal class AnswersControllerTest(@Autowired val mockMvc: MockMvc, @Autowired val mapper: ObjectMapper) {
 
     @MockkBean
@@ -74,6 +75,7 @@ internal class AnswersControllerTest(@Autowired val mockMvc: MockMvc, @Autowired
                 .andExpect(MockMvcResultMatchers.jsonPath("\$.message").value("no 1"))
     }
 
+    @WithMockUser(value = "user1")
     @Test
     fun shouldAddNewAnswerToQuestion() {
         every { answersStorage.addAnswer(1, "content0") } returns prepareAnswers(1, 1)[0]
@@ -89,6 +91,7 @@ internal class AnswersControllerTest(@Autowired val mockMvc: MockMvc, @Autowired
                 .andExpect(MockMvcResultMatchers.jsonPath("\$.creationDate").isNumber)
     }
 
+    @WithMockUser(value = "user1")
     @Test
     fun `Error add answer when question does not exist`() {
         every { answersStorage.addAnswer(1, "content0") } throws NoEntityFoundException("no 1")
@@ -102,6 +105,7 @@ internal class AnswersControllerTest(@Autowired val mockMvc: MockMvc, @Autowired
                 .andExpect(MockMvcResultMatchers.jsonPath("\$.message").value("no 1"))
     }
 
+    @WithMockUser(value = "user1")
     @Test
     fun shouldEditAnswer() {
         every { answersStorage.editAnswer(0, "content0") } returns prepareAnswers(1, 1)[0]
@@ -117,6 +121,7 @@ internal class AnswersControllerTest(@Autowired val mockMvc: MockMvc, @Autowired
                 .andExpect(MockMvcResultMatchers.jsonPath("\$.creationDate").isNumber)
     }
 
+    @WithMockUser(value = "user1")
     @Test
     fun `Error edit answer when answer does not exist`() {
         every { answersStorage.editAnswer(1, "content0") } throws NoEntityFoundException("no 1")
