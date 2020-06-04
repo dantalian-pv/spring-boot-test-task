@@ -1,6 +1,5 @@
 package de.pdmitriev.test.staffbase.storage
 
-import com.ninjasquad.springmockk.clear
 import de.pdmitriev.test.staffbase.storage.model.PersistQuestion
 import io.mockk.MockKAnnotations
 import io.mockk.clearMocks
@@ -74,6 +73,16 @@ internal class AnswersStorageTest {
             assertThat(answers[i].questionId).isEqualTo(1)
             assertThat(answers[i].content).contains("content")
         }
+    }
+
+    @Test
+    fun shouldReturnZeroAnswersToRequestedQuestion() {
+        // when
+        prepareAnswers(1, 0)
+
+        // then
+        val answers = answersStorage.answersToQuestion(1)
+        assertThat(answers).isEmpty()
     }
 
     @Test
