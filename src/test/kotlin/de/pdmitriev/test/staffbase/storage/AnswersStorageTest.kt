@@ -63,6 +63,42 @@ internal class AnswersStorageTest {
     }
 
     @Test
+    fun shouldReturnAllAnswersParticularOrder() {
+        // when
+        val size = 10
+        val totalSize = 20
+        prepareAnswers(1, size)
+        prepareAnswers(2, size)
+
+        // then
+        val allAnswers = answersStorage.allAnswers(totalSize)
+        assertThat(allAnswers).hasSize(totalSize)
+        var i = size
+        for (nextAnswer in allAnswers) {
+            assertThat(nextAnswer.content).isEqualTo("content$i")
+            i--
+            // swithch to next question
+            i = if (i == 0) size else i
+        }
+    }
+
+    @Test
+    fun shouldReturnAnswersToQuestionInParticularOrder() {
+        // when
+        val size = 10
+        prepareAnswers(1, size)
+
+        // then
+        val allAnswers = answersStorage.allAnswers(size)
+        assertThat(allAnswers).hasSize(size)
+        var i = size
+        for (nextAnswer in allAnswers) {
+            assertThat(nextAnswer.content).isEqualTo("content$i")
+            i--
+        }
+    }
+
+    @Test
     fun shouldReturnAnswersToRequestedQuestion() {
         // when
         prepareAnswers(1, 2)

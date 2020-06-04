@@ -21,9 +21,9 @@ class AnswersStorage(@Autowired private val questionsStorage: QuestionsStorage) 
                 .sortedWith( Comparator{ item1, item2 ->
                     val dateCompare = item2.creationDate.compareTo(item1.creationDate)
                     if (dateCompare == 0) {
-                        item2.id.compareTo(item1.id)
+                        return@Comparator item2.id.compareTo(item1.id)
                     }
-                    dateCompare
+                    return@Comparator dateCompare
                 })
                 .subList(0, allAnswersList.size.coerceAtMost(sizeLimit))
     }

@@ -51,6 +51,23 @@ internal class QuestionsStorageTest {
     }
 
     @Test
+    fun shouldReturnAllAddedQuestionsInParticularOrder() {
+        // when
+        val size = 20
+        addQuestions(size)
+
+        // then
+        val allQuestions = questionsStorage.allQuestions(size)
+        assertThat(allQuestions).hasSize(size)
+        var i = size
+        for (nextQuestion in allQuestions) {
+            assertThat(nextQuestion.title).isEqualTo("title$i")
+            assertThat(nextQuestion.content).isEqualTo("content$i")
+            i--
+        }
+    }
+
+    @Test
     fun shouldReturnAddedQuestionsInDescendingByTime() {
         // when
         val size = 20
