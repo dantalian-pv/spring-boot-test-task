@@ -4,12 +4,13 @@ import de.pdmitriev.test.staffbase.rest.model.RestQuestion
 import de.pdmitriev.test.staffbase.rest.model.RestQuestionList
 import de.pdmitriev.test.staffbase.storage.QuestionsStorage
 import de.pdmitriev.test.staffbase.storage.model.PersistQuestion
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/v1/questions")
-class QuestionsController(private val questionsStorage: QuestionsStorage) {
+class QuestionsController(@Autowired private val questionsStorage: QuestionsStorage) {
 
     @GetMapping()
     @ResponseBody

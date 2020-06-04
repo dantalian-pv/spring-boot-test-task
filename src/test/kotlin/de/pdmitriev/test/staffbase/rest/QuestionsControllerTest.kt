@@ -3,6 +3,8 @@ package de.pdmitriev.test.staffbase.rest
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import de.pdmitriev.test.staffbase.rest.model.RestQuestion
+import de.pdmitriev.test.staffbase.storage.AnswersStorage
+import de.pdmitriev.test.staffbase.storage.NoEntityFoundException
 import de.pdmitriev.test.staffbase.storage.QuestionsStorage
 import de.pdmitriev.test.staffbase.storage.model.PersistQuestion
 import io.mockk.every
@@ -20,6 +22,9 @@ internal class QuestionsControllerTest(@Autowired val mockMvc: MockMvc, @Autowir
 
     @MockkBean
     lateinit var questionsStorage: QuestionsStorage
+
+    @MockkBean
+    lateinit var answersStorage: AnswersStorage
 
     companion object {
         const val QUESTIONS_PATH = "/api/v1/questions"
@@ -46,6 +51,18 @@ internal class QuestionsControllerTest(@Autowired val mockMvc: MockMvc, @Autowir
     }
 
     @Test
+    fun shouldGetSingleElement() {
+        every { questionsStorage.getQuestion(1) } returns createQuestion(1)
+        mockMvc.perform(MockMvcRequestBuilders.get("$QUESTIONS_PATH/1")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk)
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.jsonPath("\$.id").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("\$.title").value("title1"))
+                .andExpect(MockMvcResultMatchers.jsonPath("\$.content").value("content1"))
+    }
+
+    @Test
     fun shouldAddSingleElement() {
         every { questionsStorage.addQuestion("title1", "content1") } returns createQuestion(1)
         mockMvc.perform(MockMvcRequestBuilders.post(QUESTIONS_PATH)
@@ -57,6 +74,17 @@ internal class QuestionsControllerTest(@Autowired val mockMvc: MockMvc, @Autowir
                 .andExpect(MockMvcResultMatchers.jsonPath("\$.id").value(1))
                 .andExpect(MockMvcResultMatchers.jsonPath("\$.title").value("title1"))
                 .andExpect(MockMvcResultMatchers.jsonPath("\$.content").value("content1"))
+    }
+
+    @Test
+    fun `Error when element does not exist`() {
+        every { questionsStorage.getQuestion(1) } throws NoEntityFoundException("no 1")
+        mockMvc.perform(MockMvcRequestBuilders.get("$QUESTIONS_PATH/1")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isNotFound)
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.jsonPath("\$.status").value(404))
+                .andExpect(MockMvcResultMatchers.jsonPath("\$.message").value("no 1"))
     }
 
     @Test
