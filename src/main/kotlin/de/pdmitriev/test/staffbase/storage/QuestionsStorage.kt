@@ -2,6 +2,7 @@ package de.pdmitriev.test.staffbase.storage
 
 import de.pdmitriev.test.staffbase.storage.model.PersistQuestion
 import org.springframework.stereotype.Service
+import java.lang.IllegalArgumentException
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicInteger
 
@@ -10,8 +11,8 @@ class QuestionsStorage {
     private val idGenerator = AtomicInteger()
     private val questions = ConcurrentHashMap<Int, PersistQuestion>()
 
-    fun allQuestions(limit: Int = -1): List<PersistQuestion> {
-        val sizeLimit = if (limit == -1) questions.size else limit
+    fun allQuestions(limit: Int = 10): List<PersistQuestion> {
+        val sizeLimit = if (limit < 0) throw IllegalArgumentException("limit must be >= 0") else limit
         return questions.entries
                 .map { it.value }
                 .sortedByDescending { it.creationDate }

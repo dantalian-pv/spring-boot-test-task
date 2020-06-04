@@ -45,7 +45,7 @@ internal class QuestionsStorageTest {
         addQuestions(size)
 
         // then
-        val allQuestions = questionsStorage.allQuestions()
+        val allQuestions = questionsStorage.allQuestions(size)
         assertThat(allQuestions).hasSize(size)
     }
 
@@ -56,7 +56,7 @@ internal class QuestionsStorageTest {
         addQuestions(size)
 
         // then
-        val allQuestions = questionsStorage.allQuestions()
+        val allQuestions = questionsStorage.allQuestions(size)
         assertThat(allQuestions).hasSize(size)
         val creationDateList = allQuestions.map { it.creationDate }
         val sortedDatesList = creationDateList.sortedByDescending { it }

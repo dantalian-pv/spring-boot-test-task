@@ -33,14 +33,14 @@ class AnswersController(@Autowired private val answersStorage: AnswersStorage) {
 
     @PostMapping("/_question/{questionId}", consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE))
     @ResponseBody
-    fun addQuestion(@PathVariable questionId: Int,
-                    @RequestBody restAnswer: RestAnswer): RestAnswer {
+    fun addAnswer(@PathVariable questionId: Int,
+                  @RequestBody restAnswer: RestAnswer): RestAnswer {
         return answersStorage.addAnswer(questionId, restAnswer.content).rest()
     }
 
     @PutMapping("/_id/{id}", consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE))
     @ResponseBody
-    fun editQuestion(@PathVariable id: Int, @RequestBody restAnswer: RestAnswer): RestAnswer {
+    fun editAnswer(@PathVariable id: Int, @RequestBody restAnswer: RestAnswer): RestAnswer {
         return answersStorage.editAnswer(id, restAnswer.content).rest()
     }
 
